@@ -82,12 +82,12 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         canJump = false;
+        if(rbody.velocity.y <= 0)
+        {
+            coyoteTimer = .2f;
+        }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        coyoteTimer = .2f;
-    }
 
     void Jump()
     {
