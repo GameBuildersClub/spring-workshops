@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float walkSpeed;
-    public float accel;
     private Rigidbody2D rbody;
     public float jumpForce;
     private bool longJump = false;
@@ -54,15 +52,13 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 goalSpeed = new Vector2(Input.GetAxisRaw("Horizontal") * walkSpeed, rbody.velocity.y);
-        rbody.velocity = Vector2.MoveTowards(rbody.velocity, goalSpeed, accel*Time.fixedDeltaTime);
         if(longJump)
         {
-            rbody.gravityScale = 2f + slamIncrease;
+            rbody.gravityScale = 1f + slamIncrease;
         }
         else
         {
-            rbody.gravityScale = 3f + slamIncrease;
+            rbody.gravityScale = 4f + slamIncrease;
         }
         if(rbody.velocity.y < 0)
         {
