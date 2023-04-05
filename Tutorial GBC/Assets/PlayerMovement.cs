@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rbody;
+    private Animator anim;
     public float jumpForce;
     private bool longJump = false;
     private float slamIncrease = 0;
@@ -16,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rbody = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -82,6 +85,12 @@ public class PlayerMovement : MonoBehaviour
         {
             coyoteTimer = .2f;
         }
+        anim.SetBool("inAir", true);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        anim.SetBool("inAir",false);
     }
 
 
@@ -96,5 +105,10 @@ public class PlayerMovement : MonoBehaviour
         {
             longJump = false;
         }
+    }
+
+    public void Kill()
+    {
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }
