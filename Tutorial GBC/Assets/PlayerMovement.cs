@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private float slamIncrease = 0;
     private float inputBuffTimer = 0;
     private float coyoteTimer = 0;
+    private float jumpTimer = 0;
 
     private bool canJump = false;
     // Start is called before the first frame update
@@ -50,6 +51,10 @@ public class PlayerMovement : MonoBehaviour
         if(coyoteTimer > 0)
         {
             coyoteTimer -= Time.deltaTime;
+        }
+        if (jumpTimer > 0)
+        {
+            jumpTimer -= Time.deltaTime;
         }
     }
 
@@ -96,19 +101,29 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        rbody.velocity = new Vector2(rbody.velocity.x, jumpForce);
-        if(Input.GetKey(KeyCode.Space))
+        if(jumpTimer <= 0)
         {
-            longJump = true;
-        }
-        else
-        {
-            longJump = false;
+            jumpTimer = .1f;
+            rbody.velocity = new Vector2(rbody.velocity.x, jumpForce);
+            if (Input.GetKey(KeyCode.Space))
+            {
+                longJump = true;
+            }
+            else
+            {
+                longJump = false;
+            }
+            GetComponent<AudioSource>().Play();
         }
     }
 
     public void Kill()
     {
+        if(GameObject.Find("Spawner").GetComponent<SpawnerBehavior>().timer > PlayerPrefs.GetFloat("HiScore"))
+        {
+            PlayerPrefs.SetFloat("HiScore", GameObject.Find("Spawner").GetComponent<SpawnerBehavior>().timer);
+            PlayerPrefs.Save();
+        }
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

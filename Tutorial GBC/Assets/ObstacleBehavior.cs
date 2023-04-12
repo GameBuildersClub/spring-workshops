@@ -18,7 +18,7 @@ public class ObstacleBehavior : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        rbody.velocity = new Vector2(-5 - Mathf.Log10(spwnerBhv.timer) * 3f, 0);
+        rbody.velocity = new Vector2(-5 - spwnerBhv.timer * .1f, 0);
         if(transform.position.x < -30)
         {
             Destroy(gameObject);
